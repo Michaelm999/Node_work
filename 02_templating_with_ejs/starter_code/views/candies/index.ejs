@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Candy App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/main.css" />
+  </head>
+  <body>
+	  <h1>
+	    <a target="_blank" href="https://www.youtube.com/watch?v=mKli0y-Xr-Q">Maz's Candy Shoppe</a>
+	  </h1>
+
+	  <div class="container">
+	  <% for(var i=0; i< candies.length; i++) {  %>
+	    <ul>
+	      <li><b>Name : </b> <%= candies[i].name %></li>
+	      <li><b>Color : </b> <%= candies[i].color %></li>
+	    </ul>
+      <a href="/candies/<%= i %>/update">UPDATE</a>
+      <a href="/candies/<%= i %>/delete">DELETE</a>
+	  <% } %>
+	  </div>
+
+    <hr>
+	 <div class="container">
+		<% include ./form %>
+	</div>
+	</body>
+</html>
