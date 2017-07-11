@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <% include ../partials/head %>
+    </head>
+    <body>
+
+      <div class="container">
+        <% include ../partials/header %>
+
+        <ul id="quotes">
+
+        <% quotes.forEach(function(quote) { %>
+
+          <li>
+            <blockquote>
+
+              <p><%= quote.text %></p>
+              <footer><%= quote.author %></footer>
+
+            </blockquote>
+          </li>
+
+        <% }); %>
+
+        </ul>
+
+        <nav>
+          <a href="/quotes/new">Add A New Quote</a>
+        </nav>
+
+        <% include ../partials/footer %>
+
+      </div>
+
+
+
+    </body>
+</html>
