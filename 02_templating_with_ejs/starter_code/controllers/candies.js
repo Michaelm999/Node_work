@@ -11,7 +11,7 @@ function index(req, res) {
 
 function create(req, res) {
   candies.push(req.body)
-  res.json(candies);
+  res.render(candies);
 };
 
 function show(req, res) {
