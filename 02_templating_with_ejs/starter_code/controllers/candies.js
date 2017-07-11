@@ -34,7 +34,7 @@ function destroy(req, res) {
     return c["id"] == req.params.id;
   });
   candies.splice(candyIndex,1);
-  res.json(candies);
+  res.render(candies);
 }
 
 module.exports = {
