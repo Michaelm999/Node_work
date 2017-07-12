@@ -8,7 +8,7 @@
   <body>
     <h1>Welcome to TODO SPA!</h1>
 
-    <button id="create">create test task</button>
+    <button id="create">Add Task</button>
     <input type="text" id="task-input">
 
     <ul id='todo-list'></ul>
@@ -20,7 +20,16 @@
       var taskInput = $('#task-input')
 
     $("#create").on("click", addNew)
-    
+
+    $('body').on('click', '.delete', function() {
+      var taskId = $(this).parent().attr('id')
+      var requestSettings = {method: 'delete', url: '/tasks/' + taskId}
+      function cb(d) {
+        populateTasksUl()
+      }
+      $.ajax(requestSettings).done(cb)
+    })
+
       function addNew() {
         var requestSettings = {method: 'post', url: '/tasks',
         data: JSON.stringify({body: taskInput.val(), completed: false}),
@@ -41,7 +50,9 @@
         d.forEach(function(task){
           console.log(task.body)
           var theLi = $('<li>')
-          theLi.text(task.body)
+          theLi.attr('id', task._id)
+          var deleteButton = '<button class="delete">Delete</button>'
+          theLi.html(task.body + deleteButton)
           todoList.append(theLi)
         })
       }
