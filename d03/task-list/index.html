@@ -7,10 +7,28 @@
   </head>
   <body>
     <h1>Welcome to TODO SPA!</h1>
+    <button id="create">create test task</button>
+    <textarea id="submit" rows="1" cols="80"></textarea>
     <ul id='todo-list'></ul>
 
     <script type="text/javascript">
+    $("#create").on("click", addNew)
+
+      var submit = $('submit')
       var todoList = $('#todo-list')
+
+      function addNew() {
+        var requestSettings = {method: 'get', url: '/tasks'}
+        function cb(d) {
+          d.forEach(function(task){
+            console.log(task.body)
+            var theLi = $('<li>')
+            theLi.text(task.body)
+            todoList.append(theLi)
+          })
+        }
+        $.ajax(requestSettings).done(cb)
+      }
 
       function populateTasksUl() {
       var requestSettings = {method: 'get', url: '/tasks'}
@@ -26,6 +44,7 @@
       $.ajax(requestSettings).done(cb)
     }
     populateTasksUl()
+
     </script>
   </body>
 </html>

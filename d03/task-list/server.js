@@ -17,8 +17,11 @@ const TaskSchema = new mongoose.Schema({
 })
 const Task = mongoose.model('Task', TaskSchema)
 
+app.post('/tasks', function(req, res){
 Task.create({body: 'play ball', completed: false})
-
+if (err) console.log(err)
+  res.sen(task)
+})
 app.get('/', function(req, res) {
   res.sendFile('index.html', {root: __dirname})
 })
