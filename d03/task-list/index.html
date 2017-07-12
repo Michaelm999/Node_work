@@ -6,22 +6,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js" charset="utf-8"></script>
   </head>
   <body>
-    <h1>Welcome to TODO SPA!</h1>
 
+    <h1>Welcome to TODO SPA!</h1>
+    <img width="40" height="40" src="https://loading.io/spinners/bluecat/index.blue-longcat-spinner.gif" />
     <button id="create">Add Task</button>
     <input type="text" id="task-input">
 
     <ul id='todo-list'></ul>
-
     <script type="text/javascript">
 
       var submit = $('submit')
       var todoList = $('#todo-list')
       var taskInput = $('#task-input')
+      var loading = $('img')
 
     $("#create").on("click", addNew)
 
     $('body').on('click', '.delete', function() {
+      loading.show()
       var taskId = $(this).parent().attr('id')
       var requestSettings = {method: 'delete', url: '/tasks/' + taskId}
       function cb(d) {
@@ -31,6 +33,7 @@
     })
 
       function addNew() {
+        loading.show()
         var requestSettings = {method: 'post', url: '/tasks',
         data: JSON.stringify({body: taskInput.val(), completed: false}),
         contentType: 'application/json'
@@ -46,6 +49,7 @@
       function populateTasksUl() {
       var requestSettings = {method: 'get', url: '/tasks'}
       function cb(d) {
+        loading.hide()
         todoList.html('')
         d.forEach(function(task){
           console.log(task.body)
@@ -59,6 +63,7 @@
       $.ajax(requestSettings).done(cb)
     }
     populateTasksUl()
+    $body = $("body");
 
     </script>
   </body>

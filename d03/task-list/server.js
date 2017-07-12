@@ -21,6 +21,13 @@ Task.create({body: 'play ball', completed: false})
 
 app.use(bodyParser.json())
 
+//slow the server down
+app.use(function(req, res, next){
+  setTimeout(function() {
+    next()
+  }, 2000)
+})
+
 app.get('/', function(req, res){
   res.sendFile('index.html', {root: __dirname})
 })
