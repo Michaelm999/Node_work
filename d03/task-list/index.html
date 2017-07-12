@@ -7,8 +7,25 @@
   </head>
   <body>
     <h1>Welcome to TODO SPA!</h1>
+    <ul id='todo-list'></ul>
+
     <script type="text/javascript">
-      
+      var todoList = $('#todo-list')
+
+      function populateTasksUl() {
+      var requestSettings = {method: 'get', url: '/tasks'}
+      function cb(d) {
+        todoList.html('')
+        d.forEach(function(task){
+          console.log(task.body)
+          var theLi = $('<li>')
+          theLi.text(task.body)
+          todoList.append(theLi)
+        })
+      }
+      $.ajax(requestSettings).done(cb)
+    }
+    populateTasksUl()
     </script>
   </body>
 </html>
