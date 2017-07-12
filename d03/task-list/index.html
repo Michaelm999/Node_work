@@ -2,30 +2,34 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>taks list</title>
+    <title>task list</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js" charset="utf-8"></script>
   </head>
   <body>
     <h1>Welcome to TODO SPA!</h1>
+
     <button id="create">create test task</button>
-    <textarea id="submit" rows="1" cols="80"></textarea>
+    <input type="text" id="task-input">
+
     <ul id='todo-list'></ul>
 
     <script type="text/javascript">
-    $("#create").on("click", addNew)
 
       var submit = $('submit')
       var todoList = $('#todo-list')
+      var taskInput = $('#task-input')
 
+    $("#create").on("click", addNew)
+    
       function addNew() {
-        var requestSettings = {method: 'get', url: '/tasks'}
+        var requestSettings = {method: 'post', url: '/tasks',
+        data: JSON.stringify({body: taskInput.val(), completed: false}),
+        contentType: 'application/json'
+      }
         function cb(d) {
-          d.forEach(function(task){
-            console.log(task.body)
-            var theLi = $('<li>')
-            theLi.text(task.body)
-            todoList.append(theLi)
-          })
+            console.log(d)
+            populateTasksUl()
+            taskInput.val('')
         }
         $.ajax(requestSettings).done(cb)
       }
