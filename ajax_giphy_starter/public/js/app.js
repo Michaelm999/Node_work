@@ -10,7 +10,12 @@ searchButton.on('click', function() {
     url: '/search/' + searchInput.val()
   }
   function cb(d){
-    console.log(d);
+    //example showing first image
+    for (var i = 0; i < d.data.length; i++) {
+    var imgURL = d.data[i].images.downsized.url
+    var images = $('.images')
+    images.append('<img src=' + imgURL + '>')
+    }
   }
   $.ajax(requestSettings).done(cb)
 })

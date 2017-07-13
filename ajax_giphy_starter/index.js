@@ -20,11 +20,11 @@ app.get('/', function(req, res) {
 app.get('/search/:searchTerm', function(req, res) {
   var searchTerm = req.params.searchTerm
   var apiUrl = 'https://api.giphy.com/v1/gifs/search'
-  var apiKey = process.env.GIPHY_API_KEY
+  var apiKey = process.env.GIHPY_API_KEY
   var requestUrl = `${apiUrl}?api_key=${apiKey}&q=${searchTerm}`
 
   request.get(requestUrl, function(err, response, body) {
-    console.log(body)
+    res.json(JSON.parse(body))
   })
 })
 
