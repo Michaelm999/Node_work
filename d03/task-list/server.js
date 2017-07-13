@@ -17,7 +17,7 @@ const TaskSchema = new mongoose.Schema({
 
 const Task = mongoose.model('Task', TaskSchema)
 
-Task.create({body: 'play ball', completed: false})
+// Task.create({body: 'play ball', completed: false})
 
 app.use(bodyParser.json())
 
