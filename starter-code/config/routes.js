@@ -3,6 +3,14 @@ var router = express.Router();
 var usersController = require('../controllers/users');
 var staticsController = require('../controllers/statics');
 
+function authenticateUser(req, res, next) {
+    // If the user is authenticated, then we continue the execution
+    if (req.isAuthenticated()) return next();
+
+    // Otherwise the request is always redirected to the home page
+    res.redirect('/');
+  }
+
 router.route('/')
   .get(staticsController.home);
 
@@ -16,5 +24,8 @@ router.route('/login')
 
 router.route("/logout")
   .get(usersController.getLogout)
+
+router.route("/secret")
+  .get(authenticateUser, usersController.secret)
 
 module.exports = router
