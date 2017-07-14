@@ -6,6 +6,7 @@ const
   mongoose = require('mongoose'),
   port = 3000
   Album = require('./models/Album.js')
+  Artist = require('./models/Artist.js')
 
 mongoose.connect('mongodb://localhost/record-label', (err) => {
   console.log(err || "Connected to MongoDB.")
@@ -120,12 +121,51 @@ app.delete('/albums/:id/songs/:songId', (req, res) => {
 ///////////////////////////////////////////////
 
 // index all artists
-
+app.get('/artists', (req, res) => {
+	Artist.find({}, (err, artists) => {
+		if(err) return console.log(err)
+		res.json(artists)
+	})
+})
 // create an artist
-
+app.post('/artists', (req, res) => {
+  Artist.create(req.body, (err, artist) => {
+    if(err) return console.log(err)
+    res.json(artist)
+  })
+})
 // get a specific artist
-
+// app.get('/artists/:id', (req, res) => {
+// 	Artist.findById(req.params.id).populate('albums').exec((err, artists) => {
+// 		if(err) return console.log(err)
+// 		res.json(artist)
+// 	})
+// })
 // create an album belonging to a specific artist
+app.post('/api/artists/:id/albums', (req, res) => {
+
+  // first, find the artist
+  Artist.findById(req.params.id, (err, artist) => {
+    if(err) return console.log(err)
+
+    // create a new album, and set the _by property to this artist's id:
+    var newAlbum = new Album(req.body)
+    newAlbum._by = artist._id
+
+    // save the album:
+    newAlbum.save((err) => {
+      if(err) return console.log(err)
+
+      // add this album to the array of this artist's albums:
+      artist.albums.push(newAlbum)
+      artist.save((err, album) => {
+        if(err) return console.log(err)
+        // send the album down as JSON
+        res.json(album)
+      })
+    })
+  })
+})
 
 // delete an artist and all of their albums
 

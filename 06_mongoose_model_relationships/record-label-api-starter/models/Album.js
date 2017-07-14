@@ -8,7 +8,8 @@ const songSchema = new mongoose.Schema({
 const albumSchema = new mongoose.Schema({
   title: {type: String, required: true, default: "Untitled"},
   year: {type: Number, required: true},
-  songs: [songSchema]
+  songs: [songSchema],
+  _by: {type: mongoose.Schema.Types.ObjectId, ref: "Artist"}
 })
 
 const Album = mongoose.model('Album', albumSchema)
