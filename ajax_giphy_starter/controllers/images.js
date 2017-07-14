@@ -15,5 +15,9 @@ module.exports = {
     request.get(requestUrl, (err, response, body) => {
       res.json(JSON.parse(body))
     })
+  },
+
+  banana: (req, res) => {
+    res.send("<h1>Bannana!</h1>")
   }
 }

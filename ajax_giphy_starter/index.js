@@ -15,8 +15,8 @@ app.use(express.static(__dirname + '/public'))
 
 
 app.get('/', imageController.index)
-
 app.get('/search/:searchTerm', imageController.search)
+app.get('/banana', imageController.banana)
 
 
 app.listen(port, (err) => {
