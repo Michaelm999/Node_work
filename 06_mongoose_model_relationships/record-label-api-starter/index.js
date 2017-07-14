@@ -45,6 +45,15 @@ app.get('/albums/:id', (req, res) => {
     res.json(album)
   })
 })
+
+//edit albums
+app.patch('/albums/:id', function(req, res) {
+  Album.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, updatedAlbum) {
+    if(err) return console.log(err)
+    res.json({message: "Album updated!", album: updatedAlbum})
+  })
+})
+
 // delete an album
 app.delete('/albums/:id', (req, res) => {
   Album.findByIdAndRemove(req.params.id, (err, album) => {
@@ -83,13 +92,27 @@ app.get('/albums/:id/songs/:songId', (req, res) => {
 		res.json(song)
 	})
 })
+
+//change a song
+app.patch('/albums/:id/songs/:songId', (req, res) => {
+  Album.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, album) {
+    if(err) return console.log(err)
+    res.json({message: "Album updated!"})
+  })
+})
+
 // delete a song from an album
 app.delete('/albums/:id/songs/:songId', (req, res) => {
   Album.findById(req.params.id, (err, album) => {
-    album.songs.id(req.params.songId).remove()
+    var song = album.songs.id(req.params.songId)
+    if(song !== null) {
+      song.remove()
     album.save((err) => {
+      if (err) return console.log(err)
       res.json(album)
     })
+  }
+  else res.send(album)
   })
 })
 
