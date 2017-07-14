@@ -145,7 +145,6 @@ app.get('/artists/:id', (req, res) => {
 
 // create an album belonging to a specific artist
 app.post('/artists/:id/albums', (req, res) => {
-
   // first, find the artist
   Artist.findById(req.params.id, (err, artist) => {
     if(err) return console.log(err)
@@ -159,11 +158,12 @@ app.post('/artists/:id/albums', (req, res) => {
       if(err) return console.log(err)
 
       // add this album to the array of this artist's albums:
-      artist.albums.push(newAlbum)
+      artist.album.push(newAlbum)
+
       artist.save((err, album) => {
         if(err) return console.log(err)
         // send the album down as JSON
-        res.json(album)
+        res.json(newAlbum)
       })
     })
   })

@@ -136,7 +136,7 @@ app.post('/api/artists/:id/albums', (req, res) => {
 
     // create a new album, and set the _by property to this artist's id:
     var newAlbum = new Album(req.body)
-    newAlbum._by = artist._id
+    newAlbum_by: artist._id
 
     // save the album:
     newAlbum.save((err) => {
