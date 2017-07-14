@@ -5,7 +5,7 @@ const
   logger = require('morgan'),
   bodyParser = require('body-parser'),
   port = 3000
-  request = require('request')
+  imageController = require('./controllers/images.js')
 
 app.set('view engine', 'ejs')
 
@@ -13,22 +13,12 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(express.static(__dirname + '/public'))
 
-app.get('/', function(req, res) {
-  res.render('search')
-})
 
-app.get('/search/:searchTerm', function(req, res) {
-  var searchTerm = req.params.searchTerm
-  var apiUrl = 'https://api.giphy.com/v1/gifs/search'
-  var apiKey = process.env.GIHPY_API_KEY
-  var requestUrl = `${apiUrl}?api_key=${apiKey}&q=${searchTerm}`
+app.get('/', imageController.index)
 
-  request.get(requestUrl, function(err, response, body) {
-    res.json(JSON.parse(body))
-  })
-})
+app.get('/search/:searchTerm', imageController.search)
 
 
-app.listen(port, function(err) {
+app.listen(port, (err) => {
   console.log(err || `Server running on ${port}.`)
 })
