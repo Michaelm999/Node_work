@@ -113,7 +113,7 @@ app.delete('/albums/:id/songs/:songId', (req, res) => {
       res.json(album)
     })
   }
-  else res.send(album)
+  else res.json(album)
   })
 })
 
@@ -135,14 +135,16 @@ app.post('/artists', (req, res) => {
   })
 })
 // get a specific artist
-// app.get('/artists/:id', (req, res) => {
-// 	Artist.findById(req.params.id).populate('albums').exec((err, artists) => {
-// 		if(err) return console.log(err)
-// 		res.json(artist)
-// 	})
-// })
+app.get('/artists/:id', (req, res) => {
+  // .populate('albums') will return the artist with an albums array fully populated with the albums instead of just their id's:
+	Artist.findById(req.params.id).populate('albums').exec((err, artist) => {
+		if(err) return console.log(err)
+		res.json(artist)
+	})
+})
+
 // create an album belonging to a specific artist
-app.post('/api/artists/:id/albums', (req, res) => {
+app.post('/artists/:id/albums', (req, res) => {
 
   // first, find the artist
   Artist.findById(req.params.id, (err, artist) => {
@@ -168,6 +170,17 @@ app.post('/api/artists/:id/albums', (req, res) => {
 })
 
 // delete an artist and all of their albums
+app.delete('/artists/:id', (req, res) => {
+  // first remove the artist:
+  Artist.findByIdAndRemove(req.params.id, (err, artist) => {
+    if(err) return console.log(err)
+    Album.remove({_by: req.params.id}, (err, albums) => {
+      // then remove all albums that belong to the artist
+      if(err) return console.log(err)
+      res.json({message: "Artist deleted."})
+    })
+  })
+})
 
 app.listen(port, (err) => {
   console.log(err || `Server running on ${port}`)
