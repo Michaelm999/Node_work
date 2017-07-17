@@ -10,7 +10,6 @@ searchButton.on('click', () => {
     url: '/search/' + searchInput.val()
   }
   function cb(d){
-    //example showing first image
     for (var i = 0; i < d.data.length; i++) {
     var imgURL = d.data[i].images.downsized.url
     var images = $('.images')
