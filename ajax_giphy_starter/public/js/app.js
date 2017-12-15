@@ -1,6 +1,7 @@
 console.log("app.js is loaded in the client...")
 var searchInput = $('#search-input')
 var searchButton = $('#search-button')
+var clearButton = $('#clear-button')
 
 
 searchButton.on('click', () => {
@@ -17,4 +18,9 @@ searchButton.on('click', () => {
     }
   }
   $.ajax(requestSettings).done(cb)
+})
+
+clearButton.on('click', () => {
+  console.log('click');
+  window.location.reload()
 })
